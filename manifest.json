@@ -1,0 +1,15 @@
+{
+  "name": "Dooray Clipboard",
+  "version": "1.0.0",
+  "description": "Dooray에서 제목을 clipboad에 copy를 쉽게 해주자",
+  "permissions": ["activeTab"],
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://nhnent.dooray.com/*"],
+      "run_at": "document_end",
+      "css": ["notifications.css"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
