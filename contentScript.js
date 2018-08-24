@@ -250,19 +250,21 @@ function appendButton(target) {
   if (target.querySelector('button[id=QFD1boxRNX]')) {
     return
   }
-  let title = document.querySelector('span.subject.ng-binding').textContent
-  let projectName = document.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.projectCode]').textContent
-  let postNumber = document.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.number]').textContent
+  let title = target.querySelector('span.subject.ng-binding').textContent
+  let projectName = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.projectCode]').textContent
+  let postNumber = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.number]').textContent
 
   var commitButton = initButton('커밋메시지', postNumber + ' ' + title)
   var pullRequestButton = initButton('Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title)
 
-  target.appendChild(commitButton)
-  target.appendChild(pullRequestButton)
+  let buttonBar = target.querySelector('div.header-right-toolbar.pull-right.layout-align-start-center.layout-row')
+
+  buttonBar.appendChild(commitButton)
+  buttonBar.appendChild(pullRequestButton)
 }
 
 function checkAndAppendButton() {
-  let targets = document.getElementsByClassName('header-right-toolbar pull-right layout-align-start-center layout-row')
+  let targets = document.getElementsByClassName('task-view ng-scope layout-column')
   for (let i = 0; i < targets.length; i++) {
     appendButton(targets[i])
   }
