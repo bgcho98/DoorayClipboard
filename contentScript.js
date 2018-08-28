@@ -221,9 +221,9 @@ function copyToClipboard(val) {
   document.body.removeChild(t)
 }
 
-function initButton(buttonTitle, copyText) {
+function initButton(id, buttonTitle, copyText) {
   let button = document.createElement('button')
-  button.id = 'QFD1boxRNX'
+  button.id = id
   button.textContent = buttonTitle
   button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
   button.addEventListener(
@@ -247,18 +247,30 @@ function initButton(buttonTitle, copyText) {
 }
 
 function appendButton(target) {
-  if (target.querySelector('button[id=QFD1boxRNX]')) {
-    return
-  }
+  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2']
+
   let title = target.querySelector('span.subject.ng-binding').textContent
   let projectName = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.projectCode]').textContent
   let postNumber = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.number]').textContent
 
-  var commitButton = initButton('커밋메시지', postNumber + ' ' + title)
-  var pullRequestButton = initButton('Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title)
+  let previousNumberButton = target.querySelector('button[id=' + buttonIds[0] + ']')
+  if (previousNumberButton && previousNumberButton.textContent === postNumber) {
+    return
+  }
 
   let buttonBar = target.querySelector('div.header-right-toolbar.pull-right.layout-align-start-center.layout-row')
+  if (previousNumberButton) {
+    for (let i = 0; i < buttonIds.length; i++) {
+      let button = target.querySelector('button[id=' + buttonIds[i] + ']')
+      buttonBar.removeChild(button)
+    }
+  }
 
+  var numberButton = initButton(buttonIds[0], postNumber, postNumber)
+  var commitButton = initButton(buttonIds[1], '커밋메시지', postNumber + ' ' + title)
+  var pullRequestButton = initButton(buttonIds[2], 'Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title)
+
+  buttonBar.appendChild(numberButton)
   buttonBar.appendChild(commitButton)
   buttonBar.appendChild(pullRequestButton)
 }
