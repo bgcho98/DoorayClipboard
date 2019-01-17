@@ -212,16 +212,30 @@
   function(t, n) {}
 ])
 
-function copyToClipboard(val) {
-  var t = document.createElement('textarea')
-  document.body.appendChild(t)
-  t.value = val
-  t.select()
-  document.execCommand('copy')
-  document.body.removeChild(t)
+function copyToClipboard(text, elementId) {
+  if( elementId === undefined) {
+	  var t = document.createElement('textarea')
+	  document.body.appendChild(t)
+	  t.value = text
+	  t.select()
+	  document.execCommand('copy')
+	  document.body.removeChild(t)
+  }
+  else {
+	  var range = document.createRange();
+	  var selection = window.getSelection();
+
+	  range.selectNodeContents(document.getElementById(elementId));
+	  selection.removeAllRanges();
+	  selection.addRange(range);
+
+	  document.execCommand('copy');
+	  selection.removeAllRanges();
+  }
 }
 
-function initButton(id, buttonTitle, copyText) {
+
+function initButton(id, buttonTitle, copyText, elementId) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
@@ -229,7 +243,7 @@ function initButton(id, buttonTitle, copyText) {
   button.addEventListener(
     'click',
     function() {
-      copyToClipboard(copyText)
+	  copyToClipboard(copyText, elementId)
       window.createNotification({
         closeOnClick: true,
         displayCloseButton: true,
@@ -247,12 +261,17 @@ function initButton(id, buttonTitle, copyText) {
 }
 
 function appendButton(target) {
-  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2']
+  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  let title = target.querySelector('span.subject.ng-binding').textContent
+  var titleElement = target.querySelector('span.subject.ng-binding');
+  if( titleElement === null) {
+	  return
+  }
+    
+  let title = titleElement.textContent
   let projectName = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.projectCode]').textContent
   let postNumber = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.number]').textContent
-
+  
   let previousNumberButton = target.querySelector('button[id=' + buttonIds[0] + ']')
   if (previousNumberButton && previousNumberButton.textContent === postNumber) {
     return
@@ -266,13 +285,28 @@ function appendButton(target) {
     }
   }
 
+  let headerLinkLine = target.querySelector('div.header-link-line.layout-align-start-center.layout-row')
+  let link = buttonBar.childNodes[1].getAttribute('data-clipboard-text')
+  
   var numberButton = initButton(buttonIds[0], postNumber, postNumber)
   var commitButton = initButton(buttonIds[1], '커밋메시지', postNumber + ' ' + title)
   var pullRequestButton = initButton(buttonIds[2], 'Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title)
 
+  let onelineText = postNumber + '/' + title
+
+  var aTag = document.createElement('a');
+  aTag.setAttribute('id', 'clipboard');
+  aTag.value = onelineText
+  aTag.innerHTML = onelineText.link(link)
+
+  headerLinkLine.appendChild(aTag);
+  
+  var messageWithLinkButton = initButton(buttonIds[3], '메시지+링크', onelineText, aTag.getAttribute('id'))
+  
   buttonBar.appendChild(numberButton)
   buttonBar.appendChild(commitButton)
   buttonBar.appendChild(pullRequestButton)
+  buttonBar.appendChild(messageWithLinkButton)
 }
 
 function checkAndAppendButton() {
