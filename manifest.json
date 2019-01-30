@@ -10,6 +10,12 @@
       "run_at": "document_end",
       "css": ["notifications.css"],
       "js": ["contentScript.js"]
+    },
+    {
+      "matches": ["https://mail.cloud.toast.com/toastmail/template/*", "https://alpha-mail.cloud.toast.com/toastmail/template/*"],
+      "run_at": "document_end",
+      "css": ["notifications.css"],
+      "js": ["email.js"]
     }
   ]
 }
