@@ -7,40 +7,38 @@ function initButton(id, buttonTitle, callbackFunc) {
   return button;
 }
 
+function applyDoorayInfo(responseText) {
+  let response = JSON.parse(responseText);
+  if (response.header.isSuccessful == false) {
+    return;
+  }
+
+  let content = response.result.content;
+  document.querySelector(
+    "input[id=pull_request_title]"
+  ).value = `#tc-클라우드개발팀/${content.number}: ${content.subject}`;
+  document.querySelector(
+    "textarea[id=pull_request_body]"
+  ).value = `* https://nhnent.dooray.com/popup/project/posts/${
+    content.id
+  }`;        
+}
+
 function fillTitle() {
   let postNumberText = document.getElementsByClassName(
     "js-select-button css-truncate css-truncate-target"
   )[3].textContent;
   let postNumber = postNumberText.split("/")[1].split("-")[0];
-  let api = `https://nhnent.dooray.com/v2/wapi/projects/!1963480696738741170/posts/${postNumber}`;
-  console.log(api);
 
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", api, false);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        let response = JSON.parse(xhr.responseText);
-        if (response.header.isSuccessful == false) {
-          return;
-        }
+  chrome.runtime.sendMessage(
+    {
+      contentScriptQuery: 'fetchUrl',
+      url: `https://nhnent.dooray.com/v2/wapi/projects/!1963480696738741170/posts/${postNumber}`
+    },
+    response => applyDoorayInfo(response)
+  );
 
-        let content = response.result.content;
-        document.querySelector(
-          "input[id=pull_request_title]"
-        ).value = `#tc-클라우드개발팀/${content.number}: ${content.subject}`;
-        document.querySelector(
-          "textarea[id=pull_request_body]"
-        ).value = `* https://nhnent.dooray.com/popup/project/posts/${
-          content.id
-        }`;
-      } else {
-        alert(xhr.responseText);
-      }
-    }
-  };
-  xhr.send();
-
+    
   console.log("end send");
 }
 
