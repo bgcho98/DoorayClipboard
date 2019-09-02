@@ -16,7 +16,7 @@ function applyDoorayInfo(responseText) {
   let content = response.result.content;
   document.querySelector(
     "input[id=pull_request_title]"
-  ).value = `#tc-클라우드개발팀/${content.number}: ${content.subject}`;
+  ).value = `#tc-클라우드프레임워크개발팀/${content.number}: ${content.subject}`;
   document.querySelector(
     "textarea[id=pull_request_body]"
   ).value = `* https://nhnent.dooray.com/popup/project/posts/${
