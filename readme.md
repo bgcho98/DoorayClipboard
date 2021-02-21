@@ -26,10 +26,32 @@
 
 ![메뉴 선택](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/5.PNG)
 
+# 설치 방법(MAC용)
+
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_1.png)
+
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_2.png)
+
+- 클릭하고 확장 프로그램 부분을 선택합니다.
+
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_3.png)
+
+- 확장 프로그램 부분에서 개발자 모드를 클릭합니다.
+- 개발자 모드를 활성화 시킨 후 처음에 Clone한 프로젝트를 "압축해제된 확장 프로그램을 로드합니다." 버튼을 통해 로드합니다.
+
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_4.png)
+
+- 로드가 정상적으로 되었으면 확장프로그램 목록에 Dooray Clipboard가 로드된 것을 확인할 수 있습니다.
+
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_5.png)
+
+- 두레이 프로젝트를 들어가서 refresh를 하면 위와 같이 "커밋메세지", "pull메세지", "메세지+링크"가 추가된 것을 확인할 수 있습니다.
+
 # 사용 방법
 
 dooray task 를 refresh 하면 X 버튼 옆에 두개 버튼이 생성됩니다. 누르면 바로 클립보드로 카피됩니다.
-![메뉴 선택](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/6.PNG)
+![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_6.png)
+
 
 # 참조
 
