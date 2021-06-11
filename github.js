@@ -54,13 +54,14 @@ function appendButton(target) {
 
   target.insertBefore(
     copyButton,
-    document.getElementsByClassName("compare-pr-placeholder")[0]
+    target.firstChild
   );
 }
 
+
 function checkAndAppendButton() {
   let targets = document.getElementsByClassName(
-    "js-details-container Details compare-pr js-compare-pr open"
+    "js-details-container Details js-compare-pr open"
   );
   for (let i = 0; i < targets.length; i++) {
     appendButton(targets[i]);
