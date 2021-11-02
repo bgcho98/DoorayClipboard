@@ -3,7 +3,7 @@
   "name": "Dooray Clipboard",
   "version": "1.0.3",
   "description": "Dooray에서 제목을 clipboad에 copy를 쉽게 해주자",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "manifest_version": 2,
   "content_scripts": [
     {

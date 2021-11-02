@@ -260,8 +260,112 @@ function initButton(id, buttonTitle, copyText, elementId) {
   return button
 }
 
+
+function initPullMsgButton(id, buttonTitle, copyText, saveObj) {
+  let button = document.createElement('button')
+  button.id = id
+  button.textContent = buttonTitle
+  button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
+  button.addEventListener(
+    'click',
+    function() {
+	  saveStorage(saveObj)
+	  copyToClipboard(copyText)
+
+      window.createNotification({
+        closeOnClick: true,
+        displayCloseButton: true,
+        positionClass: 'nfc-top-right',
+        showDuration: 3000,
+        theme: 'info'
+      })({
+        title: '클립보드 COPY',
+        message: copyText
+      })
+    },
+    false
+  )
+  return button
+}
+
+function saveStorage (saveObj) {
+	if(!isProjectPath()) {
+		return;
+	}
+	var doorayProjectIdMap = {}
+	chrome.storage.local.get("doorayProjectIdMap", result => {
+	  doorayProjectIdMap = result['doorayProjectIdMap'] || {}
+	  doorayProjectIdMap[saveObj.id] = saveObj
+	
+	  chrome.storage.local.set({"doorayProjectIdMap": doorayProjectIdMap}, () => {})
+	})
+}
+
+function isProjectPath() {
+	try {
+		parseInt(getProjectId())
+		if(window.location.pathname.split('/')[1] != 'project') {
+			return false;
+		}
+	} catch (e) {
+		return false;
+	}
+	
+	return true;
+}
+
+function getProjectId() {
+	return window.location.pathname.split('/')[2];
+}
+
+function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar) {
+  if(!isProjectPath()) {
+	return;
+  }
+  let doorayProjectIdMapToValid = {}
+  chrome.storage.local.get("doorayProjectIdMap", result => {
+	doorayProjectIdMapToValid = result['doorayProjectIdMap'] || {}
+	if (doorayProjectIdMapToValid[saveId] == null || doorayProjectIdMapToValid[saveId] === undefined) {
+		return;
+	}
+
+	let button = document.createElement('button')
+    button.id = id
+    button.textContent = buttonTitle
+    button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
+    button.addEventListener(
+      'click',
+      function() {
+        let doorayProjectIdMapToDelete = {}
+	    chrome.storage.local.get("doorayProjectIdMap", resultStorage => {
+		  doorayProjectIdMapToDelete = resultStorage['doorayProjectIdMap'] || {}
+		  delete doorayProjectIdMapToDelete[saveId]
+		
+	      chrome.storage.local.set({"doorayProjectIdMap": doorayProjectIdMapToDelete}, () => {})
+	    })
+	  
+        window.createNotification({
+          closeOnClick: true,
+          displayCloseButton: true,
+          positionClass: 'nfc-top-right',
+          showDuration: 3000,
+          theme: 'info'
+        })({
+          title: 'Chrome Storage 삭제',
+          message: saveId
+        })
+
+        buttonBar.removeChild(button)
+      },
+      false
+    )
+	
+	buttonBar.appendChild(button)
+  })
+}
+
 function appendButton(target) {
-  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
+  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3', 'QFD1boxRNX10']
 
   var titleElement = target.querySelector('span.subject.ng-binding');
   if( titleElement === null) {
@@ -290,7 +394,7 @@ function appendButton(target) {
   
   var numberButton = initButton(buttonIds[0], postNumber, postNumber)
   var commitButton = initButton(buttonIds[1], '커밋메시지', postNumber + ' ' + title)
-  var pullRequestButton = initButton(buttonIds[2], 'Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title)
+  var pullRequestButton = initPullMsgButton(buttonIds[2], 'Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title, {"id": getProjectId(), "text": projectName})
 
   let onelineText = postNumber + '/' + title
 
@@ -307,6 +411,8 @@ function appendButton(target) {
   buttonBar.appendChild(commitButton)
   buttonBar.appendChild(pullRequestButton)
   buttonBar.appendChild(messageWithLinkButton)
+  
+  createButtonStorageDelete(buttonIds[4], 'D프로젝트ID삭제', getProjectId(), projectName, buttonBar)
 }
 
 function checkAndAppendButton() {
