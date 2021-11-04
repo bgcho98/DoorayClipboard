@@ -1,4 +1,5 @@
 let PROJECT_ID = null;
+const DOORAY_PROJECT_ID_MAP_NAME = "doorayProjectIdMap"
 
 function initButton(id, buttonTitle, callbackFunc) {
   let button = document.createElement("button");
@@ -12,21 +13,15 @@ function initButton(id, buttonTitle, callbackFunc) {
 
 function initSelect(id, target, copyButton) {
   let select = document.createElement("select");
+  select.className = "form-select"
   select.id = id;
 
   select.addEventListener("change", event => {
-    chrome.storage.local.get("doorayProjectIdMap", result => {
-		PROJECT_ID = result["doorayProjectIdMap"][event.target.value].id
+      PROJECT_ID = event.target.value
 	})
-  }, false);
 
-  var doorayProjectIdMap = {}
-  chrome.storage.local.get("doorayProjectIdMap", result => {doorayProjectIdMap = result})
-  var doorayProjectIdMap = {}
-  chrome.storage.local.get("doorayProjectIdMap", result => {
-	doorayProjectIdMap = result['doorayProjectIdMap'] || {}
-
-	var doorayProjectIds = Object.values(doorayProjectIdMap);
+  chrome.storage.local.get(DOORAY_PROJECT_ID_MAP_NAME, result => {
+	var doorayProjectIds = Object.values(result[DOORAY_PROJECT_ID_MAP_NAME]);
 
 	for(var i = 0; i < doorayProjectIds.length; i++){
 	  var option=document.createElement("option");
@@ -61,7 +56,7 @@ function applyDoorayInfo(responseText) {
     "textarea[id=pull_request_body]"
   ).value = `* https://nhnent.dooray.com/popup/project/posts/${
     content.id
-  }`;        
+  }`;
 }
 
 function fillTitle() {
@@ -78,7 +73,7 @@ function fillTitle() {
     response => applyDoorayInfo(response)
   );
 
-    
+
   console.log("end send");
 }
 
@@ -119,8 +114,8 @@ function checkAndAppendButton() {
 
 console.log("loaded");
 
-chrome.storage.local.get("doorayProjectIdMap", result => {
-	const map = result["doorayProjectIdMap"]
+chrome.storage.local.get(DOORAY_PROJECT_ID_MAP_NAME, result => {
+	const map = result[DOORAY_PROJECT_ID_MAP_NAME]
 	if(map != null) {
 		const list = Object.values(map)
 		if(list != null && list.length > 0) {
@@ -130,7 +125,9 @@ chrome.storage.local.get("doorayProjectIdMap", result => {
 			}, 1000);
 		}
 	} else {
-		console.log("no project is saved");
+		console.log("두레이 프로젝트가 설정되어 있지 않네요. 아래 명령어처럼 좀 수정해서 추가해주세요~ ");
+        console.log("바로 위의 Javascript Context는 Dooray Clipboard를 선택 먼저 해야 합니다. ");
+		console.log("chrome.storage.local.set({doorayProjectIdMap: {1963480696738741170: { id: \"1963480696738741170\", text: \"클라우드프레임워크개발팀\" }, 2559256945165333868: { id: \"2559256945165333868\", text: \"tc-console\" }}}, () => console.log(\"saved\") )")
 	}
 })
 
