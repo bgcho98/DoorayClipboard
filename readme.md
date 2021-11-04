@@ -3,6 +3,7 @@
 - 클라우드개발팀에서는 흔히 commit 메시지와 pull request 타이틀을 dooray post 번호와 제목으로 하는데 일일이 copy 하는 것이 힘들어 chrome extension 으로
   클립보드에 copy 해주는 버튼을 만들어봄.
 - dooray 페이지 로드시 상단의 X 표시 옆에 커밋메시지, Pull 메시지 버튼을 생성.
+- github 페이지에서도 pull request 생성시 자동완성 버튼으로 제목과 내용을 자동으로 넣어줄수 있는 버튼 생성
 
 # 설치 방법
 
@@ -49,9 +50,17 @@
 
 # 사용 방법
 
+## Dooray 버튼
 dooray task 를 refresh 하면 X 버튼 옆에 두개 버튼이 생성됩니다. 누르면 바로 클립보드로 카피됩니다.
 ![mac_install_1](https://github.com/bgcho98/DoorayClipboard/blob/master/doc/image/mac_install_6.png)
 
+## Github 자동완성 버튼
+
+버튼이 보여지게 하기 위해서는 아래와 같이 설정이 필요합니다. 
+Dev Tools 의 콘솔에서 DoorayClipboard를 선택 후 Dooray의 프로젝트 정보를 입력해서 콤보 박스로 선택을 할 수 있게 합니다. 
+```
+chrome.storage.local.set({doorayProjectIdMap: {1963480696738741170: { id: "1963480696738741170", text: "클라우드프레임워크개발팀" }, 2559256945165333868: { id: "2559256945165333868", text: "tc-console" }}}, () => console.log("saved") )
+```
 
 # 참조
 
