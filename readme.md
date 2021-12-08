@@ -56,7 +56,7 @@ dooray task 를 refresh 하면 X 버튼 옆에 두개 버튼이 생성됩니다.
 
 ## Github 자동완성 버튼
 
-* Dooray 의 PULL메시지 버튼을 클릭을 하면 자동으로 추가가 됩니다.
+* Dooray 의 프로젝트가 열리면서 이 앱이 초기화가 될 때 자동으로 추가가 됩니다.
 * 수동으로 하는 경우 아래처럼 작업을 해야 합니다.
 
 Dev Tools 의 콘솔에서 DoorayClipboard를 선택 후 Dooray의 프로젝트 정보를 입력해서 콤보 박스로 선택을 할 수 있게 합니다. 
