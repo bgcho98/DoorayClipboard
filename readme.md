@@ -56,7 +56,9 @@ dooray task 를 refresh 하면 X 버튼 옆에 두개 버튼이 생성됩니다.
 
 ## Github 자동완성 버튼
 
-버튼이 보여지게 하기 위해서는 아래와 같이 설정이 필요합니다. 
+* Dooray 의 PULL메시지 버튼을 클릭을 하면 자동으로 추가가 됩니다.
+* 수동으로 하는 경우 아래처럼 작업을 해야 합니다.
+
 Dev Tools 의 콘솔에서 DoorayClipboard를 선택 후 Dooray의 프로젝트 정보를 입력해서 콤보 박스로 선택을 할 수 있게 합니다. 
 ```
 chrome.storage.local.set({doorayProjectIdMap: {1963480696738741170: { id: "1963480696738741170", text: "클라우드프레임워크개발팀" }, 2559256945165333868: { id: "2559256945165333868", text: "tc-console" }}}, () => console.log("saved") )
