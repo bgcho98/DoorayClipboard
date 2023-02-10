@@ -212,48 +212,32 @@
   function(t, n) {}
 ])
 
-function copyToClipboard(text, elementId) {
-  if( elementId === undefined) {
-	  var t = document.createElement('textarea')
-	  document.body.appendChild(t)
-	  t.value = text
-	  t.select()
-	  document.execCommand('copy')
-	  document.body.removeChild(t)
-  }
-  else {
-	  var range = document.createRange();
-	  var selection = window.getSelection();
-
-	  range.selectNodeContents(document.getElementById(elementId));
-	  selection.removeAllRanges();
-	  selection.addRange(range);
-
-	  document.execCommand('copy');
-	  selection.removeAllRanges();
-  }
+function copyToClipboard(text) {
+  window.navigator.clipboard.writeText(text).then(() => {
+    window.createNotification({
+      closeOnClick: true,
+      displayCloseButton: true,
+      positionClass: 'nfc-top-right',
+      showDuration: 3000,
+      theme: 'info'
+    })({
+      title: '클립보드 COPY',
+      message: text
+    })
+  });
 }
 
 
-function initButton(id, buttonTitle, copyText, elementId) {
+function initButton(id, buttonTitle, copyText) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
+  button.className = 'css-w56shc'
   button.addEventListener(
     'click',
     function() {
-	  copyToClipboard(copyText, elementId)
-      window.createNotification({
-        closeOnClick: true,
-        displayCloseButton: true,
-        positionClass: 'nfc-top-right',
-        showDuration: 3000,
-        theme: 'info'
-      })({
-        title: '클립보드 COPY',
-        message: copyText
-      })
+	  copyToClipboard(copyText)
+
     },
     false
   )
@@ -265,7 +249,7 @@ function initPullMsgButton(id, buttonTitle, copyText, saveObj) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
+  button.className = 'css-w56shc'
   button.addEventListener(
     'click',
     function() {
@@ -289,39 +273,20 @@ function initPullMsgButton(id, buttonTitle, copyText, saveObj) {
 }
 
 function saveStorage (saveObj) {
-	if(!isProjectPath()) {
-		return;
-	}
+
 	var doorayProjectIdMap = {}
 	chrome.storage.local.get("doorayProjectIdMap", result => {
 	  doorayProjectIdMap = result['doorayProjectIdMap'] || {}
 	  doorayProjectIdMap[saveObj.id] = saveObj
-	
+
 	  chrome.storage.local.set({"doorayProjectIdMap": doorayProjectIdMap}, () => {})
 	})
 }
 
-function isProjectPath() {
-	try {
-		parseInt(getProjectId())
-		if(window.location.pathname.split('/')[1] != 'project') {
-			return false;
-		}
-	} catch (e) {
-		return false;
-	}
-	
-	return true;
-}
 
-function getProjectId() {
-	return window.location.pathname.split('/')[2];
-}
 
-function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar) {
-  if(!isProjectPath()) {
-	return;
-  }
+
+function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar, firstButton) {
   let doorayProjectIdMapToValid = {}
   chrome.storage.local.get("doorayProjectIdMap", result => {
 	doorayProjectIdMapToValid = result['doorayProjectIdMap'] || {}
@@ -332,7 +297,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar)
 	let button = document.createElement('button')
     button.id = id
     button.textContent = buttonTitle
-    button.className = 'link-btn d-toolbar-white-icon-btn url-button ng-isolate-scope'
+    button.className = 'css-w56shc'
     button.addEventListener(
       'click',
       function() {
@@ -340,10 +305,10 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar)
 	    chrome.storage.local.get("doorayProjectIdMap", resultStorage => {
 		  doorayProjectIdMapToDelete = resultStorage['doorayProjectIdMap'] || {}
 		  delete doorayProjectIdMapToDelete[saveId]
-		
+
 	      chrome.storage.local.set({"doorayProjectIdMap": doorayProjectIdMapToDelete}, () => {})
 	    })
-	  
+
         window.createNotification({
           closeOnClick: true,
           displayCloseButton: true,
@@ -359,29 +324,32 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar)
       },
       false
     )
-	
-	buttonBar.appendChild(button)
+
+	buttonBar.insertBefore(button, firstButton)
   })
 }
 
 function appendButton(target) {
-  let buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3', 'QFD1boxRNX10']
+  const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  var titleElement = target.querySelector('span.subject.ng-binding');
-  if( titleElement === null) {
+  const titleElement = target.querySelector('div.css-1rzim06 > div > span.css-1o15qhr > div > span > span.css-170og6b.e705wbn0')
+  if(titleElement === null) {
 	  return
   }
-    
-  let title = titleElement.textContent
-  let projectName = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.projectCode]').textContent
-  let postNumber = target.querySelector('span[ng-bind=\\:\\:\\$ctrl\\.post\\.number]').textContent
-  
-  let previousNumberButton = target.querySelector('button[id=' + buttonIds[0] + ']')
+
+  const title = titleElement.textContent
+  const info = target.querySelector('div:nth-child(1)')
+  const projectName = info.getAttribute('data-project-code')
+  const postNumber = info.getAttribute('data-task-number')
+  const postId = info.getAttribute('data-task-id')
+  const projectId = info.getAttribute('data-project-id')
+
+  const previousNumberButton = target.querySelector('button[id=' + buttonIds[0] + ']')
   if (previousNumberButton && previousNumberButton.textContent === postNumber) {
     return
   }
 
-  let buttonBar = target.querySelector('div.header-right-toolbar.pull-right.layout-align-start-center.layout-row')
+  const buttonBar = target.querySelector('div.css-19fzpzu > div.css-1xm0crh')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
       let button = target.querySelector('button[id=' + buttonIds[i] + ']')
@@ -389,37 +357,27 @@ function appendButton(target) {
     }
   }
 
-  let headerLinkLine = target.querySelector('div.header-link-line.layout-align-start-center.layout-row')
-  let link = buttonBar.childNodes[1].getAttribute('data-clipboard-text')
-  
-  var numberButton = initButton(buttonIds[0], postNumber, postNumber)
-  var commitButton = initButton(buttonIds[1], '커밋메시지', postNumber + ' ' + title)
-  var pullRequestButton = initPullMsgButton(buttonIds[2], 'Pull메시지', '#' + projectName + '/' + postNumber + ': ' + title, {"id": getProjectId(), "text": projectName})
 
-  let onelineText = postNumber + '/' + title
+  const numberButton = initButton(buttonIds[0], postNumber, postNumber)
+  const commitButton = initButton(buttonIds[1], 'CM', postNumber + ' ' + title)
+  const pullRequestButton = initPullMsgButton(buttonIds[2], 'PM', '#' + projectName + '/' + postNumber + ': ' + title, {"id": projectId, "text": projectName})
 
-  var aTag = document.createElement('a');
-  aTag.setAttribute('id', 'clipboard');
-  aTag.value = onelineText
-  aTag.innerHTML = onelineText.link(link)
+  const firstButton = buttonBar.firstChild
 
-  headerLinkLine.appendChild(aTag);
-  
-  var messageWithLinkButton = initButton(buttonIds[3], '메시지+링크', onelineText, aTag.getAttribute('id'))
-  
-  buttonBar.appendChild(numberButton)
-  buttonBar.appendChild(commitButton)
-  buttonBar.appendChild(pullRequestButton)
-  buttonBar.appendChild(messageWithLinkButton)
-  
-  createButtonStorageDelete(buttonIds[4], 'D프로젝트ID삭제', getProjectId(), projectName, buttonBar)
+  buttonBar.insertBefore(numberButton, firstButton)
+  buttonBar.insertBefore(commitButton, firstButton)
+  buttonBar.insertBefore(pullRequestButton, firstButton)
+
+  createButtonStorageDelete(buttonIds[3], 'DP', projectId, projectName, buttonBar, firstButton)
 }
 
 function checkAndAppendButton() {
-  let targets = document.getElementsByClassName('task-view ng-scope layout-column')
-  for (let i = 0; i < targets.length; i++) {
-    appendButton(targets[i])
-  }
+  const selectors = ['#root > div.css-1hsh9xg > div.css-1diw8ia > div.css-dsxrxe > div.css-1t2c8b4 > div > div:nth-child(2) > div > div.css-1hft8pp > div > div.css-itbftm > div',
+    '#modal-container > div > div > div > div > div > div']
+
+  selectors.map(selector => document.querySelector(selector))
+    .filter(target => target != undefined && target != null)
+    .forEach(target => appendButton(target))
 }
 
 setInterval(() => {
