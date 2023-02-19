@@ -332,7 +332,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  const titleElement = target.querySelector('div.css-1rzim06 > div > span.css-1o15qhr > div > span > span.css-170og6b.e705wbn0')
+  const titleElement = target.querySelector('span.css-170og6b.e705wbn0')
   if(titleElement === null) {
 	  return
   }
