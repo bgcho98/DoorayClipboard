@@ -62,8 +62,9 @@ function applyDoorayInfo(responseText) {
 function fillTitle() {
   let postNumberText = document.getElementsByClassName(
     "css-truncate css-truncate-target"
-  )[7].textContent;
-  let postNumber = postNumberText.split("/")[1].split("-")[0];
+  )[8].textContent;
+
+  let postNumber = postNumberText.split("/").pop().split("-").pop();
 
   chrome.runtime.sendMessage(
     {
