@@ -232,7 +232,7 @@ function initButton(id, buttonTitle, copyText) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'css-w56shc'
+  button.className = 'css-4md335'
   button.addEventListener(
     'click',
     function() {
@@ -249,7 +249,7 @@ function initPullMsgButton(id, buttonTitle, copyText, saveObj) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'css-w56shc'
+  button.className = 'css-4md335'
   button.addEventListener(
     'click',
     function() {
@@ -297,7 +297,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 	let button = document.createElement('button')
     button.id = id
     button.textContent = buttonTitle
-    button.className = 'css-w56shc'
+    button.className = 'css-4md335'
     button.addEventListener(
       'click',
       function() {
@@ -332,7 +332,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  const titleElement = target.querySelector('span.css-170og6b.e705wbn0')
+  const titleElement = target.querySelector('div.css-130802j > div > span.css-1urxxyf > span.css-wzbrd0 > span.css-1yvapiu')
   if(titleElement === null) {
 	  return
   }
@@ -341,7 +341,6 @@ function appendButton(target) {
   const info = target.querySelector('div:nth-child(1)')
   const projectName = info.getAttribute('data-project-code')
   const postNumber = info.getAttribute('data-task-number')
-  const postId = info.getAttribute('data-task-id')
   const projectId = info.getAttribute('data-project-id')
 
   const previousNumberButton = target.querySelector('button[id=' + buttonIds[0] + ']')
@@ -349,7 +348,7 @@ function appendButton(target) {
     return
   }
 
-  const buttonBar = target.querySelector('div.css-19fzpzu > div.css-1xm0crh')
+  const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1klbuc0 > div.css-lhqd9u > div')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
       let button = target.querySelector('button[id=' + buttonIds[i] + ']')
@@ -372,8 +371,9 @@ function appendButton(target) {
 }
 
 function checkAndAppendButton() {
-  const selectors = ['#root > div.css-1hsh9xg > div.css-1diw8ia > div.css-dsxrxe > div.css-1t2c8b4 > div > div:nth-child(2) > div > div.css-1hft8pp > div > div.css-itbftm > div',
-    '#modal-container > div > div > div > div > div > div']
+  const selectors = ['#root > div.css-fpn35g > div.css-1e1noo6 > div.css-854c3s > div.css-16ti1lz > div > div > div > div.css-ybky2s > div > div.css-18fprro > div',
+    '#modal-container > div > div > div > div > div > div',
+    '#root > div.css-16sjwg7 > div']
 
   selectors.map(selector => document.querySelector(selector))
     .filter(target => target != undefined && target != null)
