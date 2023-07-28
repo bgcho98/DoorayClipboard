@@ -348,6 +348,7 @@ function appendButton(target) {
     return
   }
 
+
   const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1klbuc0 > div.css-lhqd9u > div')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
@@ -371,7 +372,7 @@ function appendButton(target) {
 }
 
 function checkAndAppendButton() {
-  const selectors = ['#root > div.css-fpn35g > div.css-1e1noo6 > div.css-854c3s > div.css-16ti1lz > div > div > div > div.css-ybky2s > div > div.css-18fprro > div',
+  const selectors = ['#root > div.css-fpn35g > div.zoomable.css-135ven1 > div.css-854c3s > div.css-16ti1lz > div > div > div > div.css-ybky2s > div > div.css-18fprro > div.css-1ia9dfm',
     '#modal-container > div > div > div > div > div > div',
     '#root > div.css-16sjwg7 > div']
 
