@@ -54,7 +54,7 @@ function applyDoorayInfo(responseText) {
   ).value = `#${projectName}/${content.number}: ${content.subject}`;
   document.querySelector(
     "textarea[id=pull_request_body]"
-  ).value = `* https://nhnent.dooray.com/popup/project/posts/${
+  ).value = `* https://nhnent.dooray.com/task/view/tasks/${
     content.id
   }`;
 }
