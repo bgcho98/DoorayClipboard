@@ -332,7 +332,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  const titleElement = target.querySelector('div.css-130802j > div > span.css-1urxxyf > span.css-wzbrd0 > span.css-1yvapiu')
+  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-1e8smdm > div > span.css-dy7vad')
   if(titleElement === null) {
 	  return
   }
@@ -348,8 +348,7 @@ function appendButton(target) {
     return
   }
 
-
-  const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1klbuc0 > div.css-lhqd9u > div')
+  const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-13cn242 > div.css-ymnkqa > div')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
       let button = target.querySelector('button[id=' + buttonIds[i] + ']')
@@ -372,7 +371,7 @@ function appendButton(target) {
 }
 
 function checkAndAppendButton() {
-  const selectors = [' #root > div.css-fpn35g > div.zoomable.css-135ven1 > div.css-854c3s > div.css-16ti1lz > div > div.css-18xnpfm > div > div.css-ybky2s > div > div.css-e7lvs2 > div.css-1ia9dfm',
+  const selectors = ['#task-detail-default',
     '#modal-container > div > div > div > div > div > div',
     '#root > div.css-16sjwg7 > div']
 
