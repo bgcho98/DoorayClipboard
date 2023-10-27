@@ -232,7 +232,7 @@ function initButton(id, buttonTitle, copyText) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'css-gqoeqv'
+  button.className = 'css-alefm6'
   button.addEventListener(
     'click',
     function() {
@@ -249,7 +249,7 @@ function initPullMsgButton(id, buttonTitle, copyText, saveObj) {
   let button = document.createElement('button')
   button.id = id
   button.textContent = buttonTitle
-  button.className = 'css-gqoeqv'
+  button.className = 'css-alefm6'
   button.addEventListener(
     'click',
     function() {
@@ -297,7 +297,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 	let button = document.createElement('button')
     button.id = id
     button.textContent = buttonTitle
-    button.className = 'css-gqoeqv'
+    button.className = 'css-alefm6'
     button.addEventListener(
       'click',
       function() {
