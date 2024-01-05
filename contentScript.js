@@ -331,13 +331,13 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
-
-  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-1e8smdm > div > span.css-dy7vad')
+  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-1e8smdm > div > span.css-dy7vad > span > span.css-1yvapiu')
   if(titleElement === null) {
 	  return
   }
 
   const title = titleElement.textContent
+
   const info = target.querySelector('div:nth-child(1)')
   const projectName = info.getAttribute('data-project-code')
   const postNumber = info.getAttribute('data-task-number')
@@ -347,7 +347,6 @@ function appendButton(target) {
   if (previousNumberButton && previousNumberButton.textContent === postNumber) {
     return
   }
-
   const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-13cn242 > div.css-ymnkqa > div')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
@@ -369,6 +368,7 @@ function appendButton(target) {
 
   createButtonStorageDelete(buttonIds[3], 'DP', projectId, projectName, buttonBar, firstButton)
 }
+
 
 function checkAndAppendButton() {
   const selectors = ['#task-detail-default',
