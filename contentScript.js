@@ -331,7 +331,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
-  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-1e8smdm > div > span.css-dy7vad > span > span.css-1yvapiu')
+  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1s331hr > div.css-tccsvv > div > span.css-dy7vad > span > span.css-1yvapiu')
   if(titleElement === null) {
 	  return
   }
@@ -347,7 +347,7 @@ function appendButton(target) {
   if (previousNumberButton && previousNumberButton.textContent === postNumber) {
     return
   }
-  const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1z0phxv > div.css-13cn242 > div.css-ymnkqa > div')
+  const buttonBar = target.querySelector('div.css-1iyoj2o > div.css-1s331hr > div.css-1ee2lp9 > div.css-ymnkqa > div')
   if (previousNumberButton) {
     for (let i = 0; i < buttonIds.length; i++) {
       let button = target.querySelector('button[id=' + buttonIds[i] + ']')
