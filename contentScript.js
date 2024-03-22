@@ -332,7 +332,7 @@ function createButtonStorageDelete(id, buttonTitle, saveId, saveText, buttonBar,
 function appendButton(target) {
   const buttonIds = ['QFD1boxRNX0', 'QFD1boxRNX1', 'QFD1boxRNX2', 'QFD1boxRNX3']
 
-  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1s331hr > div.css-tccsvv > div > span.css-dy7vad > span > span.css-1yvapiu')
+  const titleElement = target.querySelector('div.css-1iyoj2o > div.css-1s331hr > div.css-1fqdthp > div > span.css-dy7vad > span > span.css-1yvapiu')
   if(titleElement === null) {
     console.log('no titleElement')
 	  return
@@ -340,7 +340,7 @@ function appendButton(target) {
 
   const title = titleElement.textContent
 
-  const info = target.querySelector('div:nth-child(1)')
+  const info = target.querySelector('div.css-1n3ltfg > div > div > div > div > div:nth-child(1)')
   const projectName = info.getAttribute('data-project-code')
   const postNumber = info.getAttribute('data-task-number')
   const projectId = info.getAttribute('data-project-id')
